@@ -221,7 +221,7 @@ public enum FileDataSource {
 		protected RecordReader<?> initFileRecordReader(File sourceFileDirectory, File baseSourceFileDirectory,
 				boolean cleanSourceFiles, boolean cleanIdListFiles, File idListDir, Set<NcbiTaxonomyID> taxonIds)
 				throws IOException {
-			File tsvFile = new File(sourceFileDirectory, "BIOGRID-CHEMICALS-LATEST.tab2.txt");
+			File tsvFile = new File(sourceFileDirectory, "BIOGRID-CHEMICALS-LATEST.chemtab.txt");
 			FileUtil.validateDirectory(tsvFile);
 			return new BioGridProteinChemicalInteractionRecordReader(tsvFile, CharacterEncoding.UTF_8, taxonIds);
 		}
