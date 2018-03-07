@@ -91,16 +91,4 @@ public class BioGridProteinChemicalInteractionRecordReader
 		return null;
 	}
 
-	public static void main(String[] args) {
-		try {
-			for (BioGridProteinChemicalInteractionRecordReader rr = new BioGridProteinChemicalInteractionRecordReader(
-					new File("/tmp/BIOGRID-CHEMICALS-3.4.157.chemtab.txt"), CharacterEncoding.UTF_8,
-					CollectionsUtil.createSet(NcbiTaxonomyID.MOUSE)); rr.hasNext();) {
-				System.out.println(rr.next().toString());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

@@ -190,7 +190,7 @@ public enum FileDataSource {
 				throws IOException {
 			File tsvFile = new File(sourceFileDirectory, "BIOGRID-ALL-LATEST.tab2.txt");
 			FileUtil.validateFile(tsvFile);
-			return new BioGridProteinInteractionRecordReader(tsvFile, CharacterEncoding.UTF_8, taxonIds);
+			return new BioGridProteinInteractionRecordReader(tsvFile, CharacterEncoding.UTF_8, taxonIds, false);
 		}
 
 		@Override
@@ -207,7 +207,7 @@ public enum FileDataSource {
 				throws IOException {
 			File tsvFile = new File(sourceFileDirectory, "BIOGRID-MV-Physical-LATEST.tab2.txt");
 			FileUtil.validateFile(tsvFile);
-			return new BioGridProteinInteractionRecordReader(tsvFile, CharacterEncoding.UTF_8, taxonIds);
+			return new BioGridProteinInteractionRecordReader(tsvFile, CharacterEncoding.UTF_8, taxonIds, true);
 		}
 
 		@Override

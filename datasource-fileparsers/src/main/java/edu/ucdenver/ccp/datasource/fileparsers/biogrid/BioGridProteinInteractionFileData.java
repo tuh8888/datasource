@@ -136,6 +136,8 @@ public class BioGridProteinInteractionFileData extends SingleLineFileRecord {
 	private final List<String> tags;
 	@RecordField(ontClass = CcpExtensionOntology.BIOGRID_PROTEIN_INTERACTION_RECORD___SOURCE_DATABASE_FIELD_VALUE)
 	private final String sourceDatabase;
+	@RecordField(ontClass = CcpExtensionOntology.BIOGRID_PROTEIN_INTERACTION_RECORD___MULTIVALIDATED_PHYSICAL_FLAG_FIELD_VALUE)
+	private final boolean multiValidatedPhysicalFlag;
 
 	public BioGridProteinInteractionFileData(BioGridInteractionId biogridInteractionId,
 			DataSourceIdentifier<?> ncbiGeneIdA, DataSourceIdentifier<?> ncbiGeneIdB,
@@ -145,7 +147,7 @@ public class BioGridProteinInteractionFileData extends SingleLineFileRecord {
 			String experimentalSystem, String experimentalSystemType, String author, DataSourceIdentifier<?> pubmedId,
 			DataSourceIdentifier<?> organismInteractorA, DataSourceIdentifier<?> organismInteractorB, String throughput,
 			Float score, String modification, List<String> phenotypes, List<String> qualifications, List<String> tags,
-			String sourceDatabase, long byteOffset, long lineNumber) {
+			String sourceDatabase, boolean multiValidatedPhysicalFlag, long byteOffset, long lineNumber) {
 		super(byteOffset, lineNumber);
 		this.biogridInteractionId = biogridInteractionId;
 		this.ncbiGeneIdA = ncbiGeneIdA;
@@ -171,9 +173,10 @@ public class BioGridProteinInteractionFileData extends SingleLineFileRecord {
 		this.qualifications = qualifications;
 		this.tags = tags;
 		this.sourceDatabase = sourceDatabase;
+		this.multiValidatedPhysicalFlag = multiValidatedPhysicalFlag;
 	}
 
-	public static BioGridProteinInteractionFileData parseLine(Line line) {
+	public static BioGridProteinInteractionFileData parseLine(Line line, boolean multiValidatedPhysicalFlag) {
 		String[] toks = line.getText().split("\\t", -1);
 		int index = 0;
 		String tmpStr;
@@ -222,8 +225,8 @@ public class BioGridProteinInteractionFileData extends SingleLineFileRecord {
 				biogridInteractorIdA, biogridInteractorIdB, officialSymbolInteractorA, officialSymbolInteractorB,
 				systematicNameInteractorA, systematicNameInteractorB, synonymsInteractorA, synonymsInteractorB,
 				experimentalSystem, experimentalSystemType, author, pubmedId, organismInteractorA, organismInteractorB,
-				throughput, score, modification, phenotypes, qualifications, tags, sourceDatabase, line.getByteOffset(),
-				line.getLineNumber());
+				throughput, score, modification, phenotypes, qualifications, tags, sourceDatabase,
+				multiValidatedPhysicalFlag, line.getByteOffset(), line.getLineNumber());
 	}
 
 	private static DataSourceIdentifier<?> resolveId(DataSource ds, String idStr) {

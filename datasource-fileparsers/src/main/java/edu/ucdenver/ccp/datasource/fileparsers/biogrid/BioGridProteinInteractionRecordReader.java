@@ -57,15 +57,18 @@ public class BioGridProteinInteractionRecordReader
 		extends TaxonAwareSingleLineFileRecordReader<BioGridProteinInteractionFileData> {
 
 	public static final String EXPECTED_HEADER = "#BioGRID Interaction ID\tEntrez Gene Interactor A\tEntrez Gene Interactor B\tBioGRID ID Interactor A\tBioGRID ID Interactor B\tSystematic Name Interactor A\tSystematic Name Interactor B\tOfficial Symbol Interactor A\tOfficial Symbol Interactor B\tSynonyms Interactor A\tSynonyms Interactor B\tExperimental System\tExperimental System Type\tAuthor\tPubmed ID\tOrganism Interactor A\tOrganism Interactor B\tThroughput\tScore\tModification\tPhenotypes\tQualifications\tTags\tSource Database";
+	private final boolean multiValidatedPhysicalFlag;
 
 	public BioGridProteinInteractionRecordReader(File dataFile, CharacterEncoding encoding,
-			Set<NcbiTaxonomyID> taxonsOfInterest) throws IOException {
+			Set<NcbiTaxonomyID> taxonsOfInterest, boolean multiValidatedPhysicalFlag) throws IOException {
 		super(dataFile, encoding, taxonsOfInterest);
+		this.multiValidatedPhysicalFlag = multiValidatedPhysicalFlag;
 	}
 
 	public BioGridProteinInteractionRecordReader(InputStream stream, CharacterEncoding encoding,
-			Set<NcbiTaxonomyID> taxonsOfInterest) throws IOException {
+			Set<NcbiTaxonomyID> taxonsOfInterest, boolean multiValidatedPhysicalFlag) throws IOException {
 		super(stream, encoding, null, taxonsOfInterest);
+		this.multiValidatedPhysicalFlag = multiValidatedPhysicalFlag;
 	}
 
 	@Override
@@ -80,13 +83,14 @@ public class BioGridProteinInteractionRecordReader
 
 	@Override
 	protected BioGridProteinInteractionFileData parseRecordFromLine(Line line) {
-		return BioGridProteinInteractionFileData.parseLine(line);
+		return BioGridProteinInteractionFileData.parseLine(line, multiValidatedPhysicalFlag);
 	}
 
 	@Override
 	protected Set<NcbiTaxonomyID> getLineTaxon(Line line) {
 		Set<NcbiTaxonomyID> taxonIds = new HashSet<NcbiTaxonomyID>();
-		BioGridProteinInteractionFileData record = BioGridProteinInteractionFileData.parseLine(line);
+		BioGridProteinInteractionFileData record = BioGridProteinInteractionFileData.parseLine(line,
+				multiValidatedPhysicalFlag);
 		DataSourceIdentifier<?> taxonIdA = record.getOrganismInteractorA();
 		DataSourceIdentifier<?> taxonIdB = record.getOrganismInteractorB();
 		if (taxonIdA != null && NcbiTaxonomyID.class.isInstance(taxonIdA)) {
@@ -96,18 +100,6 @@ public class BioGridProteinInteractionRecordReader
 			taxonIds.add((NcbiTaxonomyID) taxonIdB);
 		}
 		return taxonIds;
-	}
-
-	public static void main(String[] args) {
-		try {
-			for (BioGridProteinInteractionRecordReader rr = new BioGridProteinInteractionRecordReader(
-					new File("/tmp/BIOGRID-MV-Physical-3.4.157.tab2.txt"), CharacterEncoding.UTF_8,
-					CollectionsUtil.createSet(NcbiTaxonomyID.MOUSE)); rr.hasNext();) {
-				System.out.println(rr.next().toString());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 }
