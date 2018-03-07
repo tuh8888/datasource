@@ -189,7 +189,7 @@ public enum FileDataSource {
 				boolean cleanSourceFiles, boolean cleanIdListFiles, File idListDir, Set<NcbiTaxonomyID> taxonIds)
 				throws IOException {
 			File tsvFile = new File(sourceFileDirectory, "BIOGRID-ALL-LATEST.tab2.txt");
-			FileUtil.validateDirectory(tsvFile);
+			FileUtil.validateFile(tsvFile);
 			return new BioGridProteinInteractionRecordReader(tsvFile, CharacterEncoding.UTF_8, taxonIds);
 		}
 
@@ -206,7 +206,7 @@ public enum FileDataSource {
 				boolean cleanSourceFiles, boolean cleanIdListFiles, File idListDir, Set<NcbiTaxonomyID> taxonIds)
 				throws IOException {
 			File tsvFile = new File(sourceFileDirectory, "BIOGRID-MV-Physical-LATEST.tab2.txt");
-			FileUtil.validateDirectory(tsvFile);
+			FileUtil.validateFile(tsvFile);
 			return new BioGridProteinInteractionRecordReader(tsvFile, CharacterEncoding.UTF_8, taxonIds);
 		}
 
@@ -222,7 +222,7 @@ public enum FileDataSource {
 				boolean cleanSourceFiles, boolean cleanIdListFiles, File idListDir, Set<NcbiTaxonomyID> taxonIds)
 				throws IOException {
 			File tsvFile = new File(sourceFileDirectory, "BIOGRID-CHEMICALS-LATEST.chemtab.txt");
-			FileUtil.validateDirectory(tsvFile);
+			FileUtil.validateFile(tsvFile);
 			return new BioGridProteinChemicalInteractionRecordReader(tsvFile, CharacterEncoding.UTF_8, taxonIds);
 		}
 
