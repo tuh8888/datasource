@@ -136,9 +136,9 @@ public class ProMappingFileParser extends SingleLineFileRecordReader<ProMappingR
 			}
 			if (idStr.startsWith("UniProtKB:")) {
 				try {
-					return new UniProtID(StringUtil.removePrefix(idStr, "UniProtKB:"));
-				} catch (IllegalArgumentException e) {
 					return new UniProtIsoformID(StringUtil.removePrefix(idStr, "UniProtKB:"));
+				} catch (IllegalArgumentException e) {
+					return new UniProtID(StringUtil.removePrefix(idStr, "UniProtKB:"));
 				}
 			}
 		} catch (IllegalArgumentException e) {
